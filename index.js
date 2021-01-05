@@ -1,21 +1,70 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import {Provider} from 'react-redux';
-import './index.css';
-import App from './App';
-import MemoStore from './memo/Store'
+p182
+import React, { Component } from 'react';
+import Rect from './Rect';
+import './App.css';
+
+let data = {title: 'Title.',
+           message:'this is sample message.'};
+
+const SampleContext = React.createContext(data);
 
 
-ReactDOM.render(
-    <Provider store={Memostore}>
-      <App />
-    </Provider>,
+class App extends Component {
+    newdata = {title:'新しいタイトル',
+               message: 'これは新しいメッセージです。'};
+ 
+ render(){
+    return (
+        <div>
+        <h1>Context</h1>
+        <Title />
+        <Message />
+        <SampleContext.Provider value={this.newdata}>
+         <Title />
+        <Message />
+        </SampleContext.Provider>
+         <Title />
+        <Message />
+        </div>
+        );
+    
+    }
+}
+class Title extends Component {
+       static contextType = SampleContext;
+   render() {
+       return (
+       <div>
+             <h2>{this.context.title}</h2>
+       </div>
+       );
+   }
+}
 
-   
-  document.getElementById('root')
-);
+//class Message extends Component {
+//    static contextType = SampleContext;
+//   
+//      render(){
+//          return (
+//          <div>
+//          <p>{this.context.title}</p>
+//          </div>
+//              );
+//      }
+//}
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+class Message extends Component {
+    static contextType = SampleContext;
+  render(){
+  return(
+  　　<div>
+       <p>{this.context.message}</p>
+     </div>
+      );
+    }
+}
+    
 
+ 
+
+export default App;
